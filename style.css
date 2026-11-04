@@ -155,7 +155,8 @@ li {
     margin: 4px 0;
 }
 
-/* Mobile layout */
+/*Mobile version adaptaTion*/
+
 @media (max-width: 600px) {
     .site-header {
         padding: 30px 16px 22px;
