@@ -1,5 +1,3 @@
-/* Shared styles for index.html and classified.html */
-
 * {
     box-sizing: border-box;
 }
@@ -157,7 +155,7 @@ li {
     margin: 4px 0;
 }
 
-/* Adjust the layout for mobile-sized screens */
+/* Mobile layout */
 @media (max-width: 600px) {
     .site-header {
         padding: 30px 16px 22px;
