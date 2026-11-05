@@ -1,0 +1,196 @@
+/* Shared styles for index.html and classified.html */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    color: #f5f7fb;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    background-color: #101827;
+    background-image: linear-gradient(rgba(10, 18, 32, 0.86), rgba(10, 18, 32, 0.91)), url("background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.site-header {
+    padding: 42px 20px 28px;
+    text-align: center;
+}
+
+#main-title {
+    margin: 0 0 10px;
+    color: #9ce7df;
+    font-size: 2.2rem;
+    line-height: 1.2;
+}
+
+.site-header p {
+    margin: 0;
+    color: #d4deeb;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 20px;
+    background-color: rgba(15, 29, 48, 0.92);
+    border-top: 1px solid rgba(156, 231, 223, 0.25);
+    border-bottom: 1px solid rgba(156, 231, 223, 0.25);
+}
+
+.navigation a {
+    display: block;
+    padding: 8px 15px;
+    color: #f5f7fb;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.navigation a:hover,
+.navigation a:focus-visible {
+    color: #101827;
+    background-color: #9ce7df;
+}
+
+.page-content {
+    width: 90%;
+    max-width: 1050px;
+    margin: 30px auto;
+}
+
+.content-card {
+    margin: 0 0 24px;
+    padding: 25px;
+    background-color: rgba(20, 34, 54, 0.94);
+    border: 1px solid rgba(156, 231, 223, 0.28);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.content-card h2 {
+    margin-top: 0;
+    color: #9ce7df;
+}
+
+.content-card h3 {
+    color: #d4c5ff;
+}
+
+.content-card a {
+    color: #9ce7df;
+}
+
+.content-card a:hover,
+.content-card a:focus-visible {
+    color: #ffffff;
+}
+
+.profile-image {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 15px auto 20px;
+    border: 3px solid #9ce7df;
+    border-radius: 10px;
+}
+
+.project-gallery,
+.info-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.project-card,
+.info-card {
+    flex: 1 1 230px;
+    min-width: 0;
+    padding: 18px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(212, 197, 255, 0.25);
+    border-radius: 10px;
+}
+
+.project-card a {
+    display: block;
+    text-decoration: none;
+}
+
+.project-card img {
+    display: block;
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.project-card h3 {
+    margin-bottom: 5px;
+}
+
+.project-card p,
+.info-card p {
+    margin-bottom: 0;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.site-footer {
+    padding: 22px 20px;
+    text-align: center;
+    color: #d4deeb;
+    background-color: rgba(15, 29, 48, 0.92);
+    border-top: 1px solid rgba(156, 231, 223, 0.25);
+}
+
+.site-footer p {
+    margin: 4px 0;
+}
+
+/* Adjust the layout for mobile-sized screens */
+@media (max-width: 600px) {
+    .site-header {
+        padding: 30px 16px 22px;
+    }
+
+    #main-title {
+        font-size: 1.7rem;
+    }
+
+    .page-content {
+        width: 92%;
+        margin: 20px auto;
+    }
+
+    .content-card {
+        padding: 18px;
+    }
+
+    .navigation {
+        gap: 4px;
+    }
+
+    .navigation a {
+        padding: 8px 10px;
+    }
+
+    .project-gallery,
+    .info-gallery {
+        flex-direction: column;
+    }
+
+    .project-card img {
+        height: auto;
+        max-height: 240px;
+    }
+}
