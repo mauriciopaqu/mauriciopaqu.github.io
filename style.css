@@ -193,3 +193,104 @@ li {
         max-height: 240px;
     }
 }
+
+
+/* INTERACTIVE ELEMENTS */
+button,
+input {
+    font: inherit;
+}
+
+button {
+    margin: 12px 6px 8px 0;
+    padding: 10px 16px;
+    color: #101827;
+    background-color: #9ce7df;
+    border: 1px solid #9ce7df;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover,
+button:focus-visible {
+    background-color: #d4c5ff;
+    border-color: #d4c5ff;
+}
+
+input {
+    max-width: 100%;
+    padding: 10px;
+    color: #101827;
+    background-color: #ffffff;
+    border: 1px solid #9ce7df;
+    border-radius: 6px;
+}
+
+/* LIGHT MODE */
+body.light-mode {
+    color: #202938;
+    background-color: #f3f5f8;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.92)), url("background.jpg");
+}
+
+body.light-mode #main-title,
+body.light-mode .content-card h2 {
+    color: #176b68;
+}
+
+body.light-mode .site-header p,
+body.light-mode .site-footer {
+    color: #344054;
+}
+
+body.light-mode .navigation,
+body.light-mode .site-footer {
+    background-color: rgba(232, 238, 245, 0.96);
+    border-color: rgba(23, 107, 104, 0.25);
+}
+
+body.light-mode .navigation a {
+    color: #202938;
+}
+
+body.light-mode .navigation a:hover,
+body.light-mode .navigation a:focus-visible {
+    color: #ffffff;
+    background-color: #176b68;
+}
+
+body.light-mode .content-card {
+    background-color: rgba(255, 255, 255, 0.94);
+    border-color: rgba(23, 107, 104, 0.25);
+}
+
+body.light-mode .content-card h3 {
+    color: #55418a;
+}
+
+body.light-mode .content-card a {
+    color: #176b68;
+}
+
+body.light-mode .content-card a:hover,
+body.light-mode .content-card a:focus-visible {
+    color: #55418a;
+}
+
+body.light-mode .project-card,
+body.light-mode .info-card {
+    background-color: rgba(23, 107, 104, 0.06);
+    border-color: rgba(85, 65, 138, 0.25);
+}
+
+body.light-mode button {
+    color: #ffffff;
+    background-color: #176b68;
+    border-color: #176b68;
+}
+
+body.light-mode button:hover,
+body.light-mode button:focus-visible {
+    background-color: #55418a;
+    border-color: #55418a;
+}
