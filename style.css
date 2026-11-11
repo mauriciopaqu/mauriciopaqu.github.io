@@ -8,10 +8,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
     background-color: #101827;
-    background-image: linear-gradient(rgba(10, 18, 32, 0.86), rgba(10, 18, 32, 0.91)), url("background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
 }
 
 .site-header {
@@ -230,7 +226,6 @@ input {
 body.light-mode {
     color: #202938;
     background-color: #f3f5f8;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.92)), url("background.jpg");
 }
 
 body.light-mode #main-title,
@@ -293,4 +288,51 @@ body.light-mode button:hover,
 body.light-mode button:focus-visible {
     background-color: #55418a;
     border-color: #55418a;
+}
+
+/* LIGHT MODE: make the whole page visibly light */
+body.light-mode .site-header p,
+body.light-mode .site-footer {
+    color: #354052;
+}
+
+body.light-mode .navigation,
+body.light-mode .site-footer {
+    background-color: #e2e8f0;
+    border-color: #c5d0dc;
+}
+
+body.light-mode .navigation a {
+    color: #202938;
+}
+
+body.light-mode .navigation a:hover,
+body.light-mode .navigation a:focus-visible {
+    color: #ffffff;
+    background-color: #176b68;
+}
+
+body.light-mode .content-card {
+    background-color: #ffffff;
+    border-color: #c5d0dc;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .content-card h3 {
+    color: #51427a;
+}
+
+body.light-mode .content-card a {
+    color: #176b68;
+}
+
+body.light-mode .content-card a:hover,
+body.light-mode .content-card a:focus-visible {
+    color: #103f3d;
+}
+
+body.light-mode .project-card,
+body.light-mode .info-card {
+    background-color: #f3f5f8;
+    border-color: #d5dce5;
 }
