@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +15,7 @@
     <header class="site-header">
         <h1 id="main-title">Welcome to Mauricio's Website</h1>
         <p>Communication, creativity, and digital media.</p>
+        <button id="theme-toggle" type="button">Switch to Light Mode</button>
     </header>
 
     <nav class="navigation">
@@ -49,6 +49,14 @@
         </section>
 
  
+        <section class="content-card">
+            <h2>Say Hello!</h2>
+            <p>Enter your name to receive a personalized greeting.</p>
+            <input type="text" id="visitor-name" placeholder="Your name">
+            <button id="greet-button" type="button">Greet Me</button>
+            <p id="greeting-message"></p>
+        </section>
+
         <section class="content-card">
             <h2>My Skills and Abilities</h2>
 
@@ -169,7 +177,7 @@
         <p>&copy; 2026 Mauricio Padilla Quintero</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 </html>
