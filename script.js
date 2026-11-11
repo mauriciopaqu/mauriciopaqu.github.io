@@ -1,5 +1,6 @@
 console.log("Hello from TAG-ME!");
 
+// light and dark mode
 const themeButton = document.getElementById("theme-toggle");
 
 themeButton.addEventListener("click", function () {
@@ -12,6 +13,7 @@ themeButton.addEventListener("click", function () {
     }
 });
 
+// generatorr
 const facts = [
     "I am color blind, so sometimes I mistake a yellow T-shirt for bright green.",
     "I love horror video games and movies.",
@@ -31,6 +33,7 @@ if (factButton) {
     });
 }
 
+// greeting
 const greetButton = document.getElementById("greet-button");
 const nameInput = document.getElementById("visitor-name");
 const greetingMessage = document.querySelector("#greeting-message");
