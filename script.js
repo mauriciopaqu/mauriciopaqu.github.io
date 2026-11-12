@@ -15,12 +15,12 @@ themeButton.addEventListener("click", function () {
 
 // generatorr
 const facts = [
-    "I am color blind, so sometimes I mistake a yellow T-shirt for bright green.",
-    "I love horror video games and movies.",
-    "I have a popular second Instagram account that I prefer to keep hidden.",
-    "I can have random food cravings at unexpected times.",
-    "One of my ambitions is to create my own digital media agency.",
-    "I dream of having a home that combines futuristic design with warmth and coziness."
+    "I am an overthinker and that's why I like to be distracted",
+    "I like matcha latte (sorry... I'm not pretending)",
+    "Skincare is my way of relaxing!",
+    "I loooove hotpot! Wanna join?",
+    "I have a dog named Archie... Woof!",
+    "I like playing Resident Evil! Do you like it?"
 ];
 
 const factButton = document.getElementById("fact-button");
@@ -45,7 +45,7 @@ if (greetButton) {
         if (visitorName === "") {
             greetingMessage.textContent = "Please enter your name first.";
         } else {
-            greetingMessage.textContent = `Hello, ${visitorName}! Welcome to my website.`;
+            greetingMessage.textContent = `Hello, ${visitorName}! Welcome to my website!`;
         }
     });
 }
