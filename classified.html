@@ -43,6 +43,50 @@
             <button id="fact-button" type="button">Show Me a Random Fact</button>
         </section>
 
+
+        <section id="trivia-quiz" class="content-card trivia-section">
+            <div class="trivia-heading">
+                <div>
+                    <p class="quiz-kicker">THE CLASSIFIED FILES</p>
+                    <h2>How Well Do You Know Me?</h2>
+                    <p>Think you've learned enough about me? Take this little trivia challenge.</p>
+                </div>
+                <span id="quiz-counter" class="quiz-counter">Question 1 of 6</span>
+            </div>
+
+            <div class="quiz-progress" aria-label="Quiz progress">
+                <div id="quiz-progress-fill" class="quiz-progress-fill"></div>
+            </div>
+
+            <div id="quiz-stage" class="quiz-stage">
+                <div id="quiz-card" class="quiz-card">
+                    <div class="quiz-card-inner">
+                        <div class="quiz-card-face quiz-card-front">
+                            <p class="quiz-card-label">YOUR QUESTION</p>
+                            <h3 id="quiz-question">Loading your first question...</h3>
+                            <div id="quiz-options" class="quiz-options"></div>
+                            <p class="quiz-keyboard-hint">Tip: You can also press keys 1–4 to choose an answer.</p>
+                        </div>
+
+                        <div class="quiz-card-face quiz-card-back" aria-live="polite">
+                            <p id="quiz-feedback-icon" class="quiz-feedback-icon"></p>
+                            <h3 id="quiz-feedback-title">Nice try!</h3>
+                            <p id="quiz-feedback-text"></p>
+                            <p id="quiz-running-score" class="quiz-running-score"></p>
+                            <button id="quiz-next" type="button">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quiz-result" class="quiz-result" hidden aria-live="polite">
+                <p class="quiz-card-label">YOUR FINAL SCORE</p>
+                <h3 id="quiz-final-score" class="quiz-final-score">0 / 6</h3>
+                <p id="quiz-result-message"></p>
+                <button id="quiz-restart" type="button">Play Again</button>
+            </div>
+        </section>
+
         <section class="content-card">
             <h2>A Survival Guide to Working With Me</h2>
             <p>Want to work with me? Here are a few tips to make the experience better.</p>
