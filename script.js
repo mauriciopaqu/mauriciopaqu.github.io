@@ -253,53 +253,62 @@ if (quizSection) {
 }
 
 
-// POKÉMON PERSONALITY QUIZ: a separate feature using the PokéAPI.
+// POKÉMON PERSONALITY QUIZ: a separate feature using the free PokéAPI.
 {
-const quizSection = document.getElementById("pokemon-match-quiz");
-
-if (quizSection) {
     const questions = [
-        { question: "What sounds like your ideal weekend?", options: [
-            { text: "Going out and trying something exciting", type: "electric" },
-            { text: "Relaxing near the water", type: "water" },
-            { text: "Exploring somewhere new", type: "fire" },
-            { text: "Creating something or learning a mystery", type: "psychic" }
-        ]},
-        { question: "Which word describes you best?", options: [
-            { text: "Energetic", type: "electric" }, { text: "Calm", type: "water" },
-            { text: "Brave", type: "fire" }, { text: "Imaginative", type: "psychic" }
-        ]},
-        { question: "When you face a challenge, you usually...", options: [
-            { text: "Act quickly and stay positive", type: "electric" },
-            { text: "Stay patient and think it through", type: "water" },
-            { text: "Face it head-on", type: "fire" }, { text: "Find an unexpected solution", type: "psychic" }
-        ]},
-        { question: "Choose the place where you would feel most at home:", options: [
-            { text: "A lively city full of lights", type: "electric" },
-            { text: "A peaceful beach or lake", type: "water" },
-            { text: "A sunny mountain trail", type: "fire" },
-            { text: "A quiet library or art studio", type: "psychic" }
-        ]},
-        { question: "What would your friends appreciate most about you?", options: [
-            { text: "I bring energy and excitement", type: "electric" },
-            { text: "I listen and offer support", type: "water" },
-            { text: "I motivate people to be bold", type: "fire" },
-            { text: "I bring original ideas", type: "psychic" }
-        ]}
+        {
+            question: "How do you usually spend a free afternoon?",
+            options: [
+                { text: "Trying something exciting and active", type: "electric" },
+                { text: "Relaxing somewhere peaceful", type: "water" },
+                { text: "Going on an adventure", type: "fire" },
+                { text: "Creating or imagining something", type: "psychic" }
+            ]
+        },
+        {
+            question: "Which quality describes you best?",
+            options: [
+                { text: "Energetic and spontaneous", type: "electric" },
+                { text: "Calm and thoughtful", type: "water" },
+                { text: "Brave and determined", type: "fire" },
+                { text: "Creative and curious", type: "psychic" }
+            ]
+        },
+        {
+            question: "Choose a place where you would feel happiest.",
+            options: [
+                { text: "A lively city full of things to do", type: "electric" },
+                { text: "A quiet beach or lake", type: "water" },
+                { text: "A mountain trail waiting to be explored", type: "fire" },
+                { text: "A mysterious library or art studio", type: "psychic" }
+            ]
+        },
+        {
+            question: "When facing a challenge, what do you do?",
+            options: [
+                { text: "Act quickly and adapt", type: "electric" },
+                { text: "Stay patient and think it through", type: "water" },
+                { text: "Face it head-on", type: "fire" },
+                { text: "Find an unusual solution", type: "psychic" }
+            ]
+        },
+        {
+            question: "What would your friends say you bring to a group?",
+            options: [
+                { text: "Energy and excitement", type: "electric" },
+                { text: "Support and balance", type: "water" },
+                { text: "Confidence and motivation", type: "fire" },
+                { text: "Ideas and imagination", type: "psychic" }
+            ]
+        }
     ];
 
-    const typeDescriptions = {
-        electric: "You bring energy, enthusiasm, and a spark of excitement wherever you go.",
-        water: "You are thoughtful, adaptable, and know how to keep a cool head.",
-        fire: "You are courageous, passionate, and ready to take on new challenges.",
-        psychic: "You are imaginative, curious, and enjoy looking at things from a different perspective."
-    };
     const typeCache = {};
     const pokemonCache = {};
+
     let currentQuestion = 0;
     let selectedTypes = [];
     let answered = false;
-    let preferredType = "electric";
 
     const quizCounter = document.getElementById("pokemon-quiz-counter");
     const progressFill = document.getElementById("pokemon-quiz-progress-fill");
@@ -327,55 +336,90 @@ if (quizSection) {
     function showQuestion() {
         answered = false;
         quizCard.classList.remove("is-flipped");
+
         const question = questions[currentQuestion];
         quizCounter.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
         progressFill.style.width = `${(currentQuestion / questions.length) * 100}%`;
         questionText.textContent = question.question;
         optionsContainer.innerHTML = "";
+
         for (let i = 0; i < question.options.length; i++) {
             const optionButton = document.createElement("button");
             optionButton.type = "button";
             optionButton.classList.add("quiz-option");
             optionButton.textContent = `${i + 1}. ${question.options[i].text}`;
-            optionButton.addEventListener("click", function () { selectAnswer(i); });
+            optionButton.addEventListener("click", function () {
+                selectAnswer(i);
+            });
             optionsContainer.appendChild(optionButton);
         }
     }
 
     function selectAnswer(selectedOption) {
         if (answered) return;
+
         answered = true;
         const selectedAnswer = questions[currentQuestion].options[selectedOption];
         selectedTypes.push(selectedAnswer.type);
+
         feedbackIcon.textContent = "✓";
         feedbackTitle.textContent = "Choice saved!";
-        feedbackTitle.classList.remove("quiz-incorrect");
-        feedbackTitle.classList.add("quiz-correct");
-        feedbackText.textContent = `You chose: ${selectedAnswer.text}. Your answer adds ${selectedAnswer.type} to your personality profile.`;
+        feedbackText.textContent = `Your answer adds ${selectedAnswer.type} energy to your personality.`;
         runningScore.textContent = `Question ${currentQuestion + 1} of ${questions.length} completed`;
+
         const optionButtons = optionsContainer.querySelectorAll("button");
         for (let i = 0; i < optionButtons.length; i++) {
             optionButtons[i].disabled = true;
             if (i === selectedOption) optionButtons[i].classList.add("correct-answer");
         }
-        nextButton.textContent = currentQuestion === questions.length - 1 ? "Reveal My Pokémon!" : "Next Question";
+
+        nextButton.textContent = currentQuestion === questions.length - 1
+            ? "Reveal My Pokémon!"
+            : "Next Question";
         quizCard.classList.add("is-flipped");
     }
 
     function getPreferredType() {
-        let bestType = selectedTypes[0];
+        const counts = {};
+        let preferredType = selectedTypes[0];
         let highestCount = 0;
+
         for (let i = 0; i < selectedTypes.length; i++) {
-            let count = 0;
-            for (let j = 0; j < selectedTypes.length; j++) {
-                if (selectedTypes[i] === selectedTypes[j]) count++;
+            const type = selectedTypes[i];
+            counts[type] = (counts[type] || 0) + 1;
+            if (counts[type] > highestCount) {
+                highestCount = counts[type];
+                preferredType = type;
             }
-            if (count > highestCount) { highestCount = count; bestType = selectedTypes[i]; }
         }
-        return bestType;
+        return preferredType;
     }
 
-    async function getPokemonMatch() {
+    async function getPokemonForType(type) {
+        if (!typeCache[type]) {
+            const typeResponse = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+            if (!typeResponse.ok) throw new Error("PokéAPI could not load that Pokémon type.");
+            typeCache[type] = await typeResponse.json();
+        }
+
+        const pokemonList = typeCache[type].pokemon;
+        if (!pokemonList || pokemonList.length === 0) {
+            throw new Error("No Pokémon were found for that type.");
+        }
+
+        const choice = pokemonList[Math.floor(Math.random() * pokemonList.length)].pokemon;
+        const pokemonName = choice.name;
+
+        if (!pokemonCache[pokemonName]) {
+            const pokemonResponse = await fetch(choice.url);
+            if (!pokemonResponse.ok) throw new Error("PokéAPI could not load the selected Pokémon.");
+            pokemonCache[pokemonName] = await pokemonResponse.json();
+        }
+
+        return pokemonCache[pokemonName];
+    }
+
+    async function findPokemonMatch() {
         quizStage.hidden = true;
         quizResult.hidden = false;
         progressFill.style.width = "100%";
@@ -384,61 +428,55 @@ if (quizSection) {
         retryButton.hidden = true;
         loadingTitle.textContent = "Finding your Pokémon...";
         statusText.textContent = "Connecting to PokéAPI. Please wait!";
-        preferredType = getPreferredType();
+
         try {
-            let typeData = typeCache[preferredType];
-            if (!typeData) {
-                const typeResponse = await fetch(`https://pokeapi.co/api/v2/type/${preferredType}`);
-                if (!typeResponse.ok) throw new Error("The Pokémon type could not be loaded.");
-                typeData = await typeResponse.json();
-                typeCache[preferredType] = typeData;
-            }
-            if (!typeData.pokemon || typeData.pokemon.length === 0) throw new Error("No Pokémon were found for this type.");
-            const randomIndex = Math.floor(Math.random() * typeData.pokemon.length);
-            const chosenName = typeData.pokemon[randomIndex].pokemon.name;
-            let pokemonData = pokemonCache[chosenName];
-            if (!pokemonData) {
-                const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${chosenName}`);
-                if (!pokemonResponse.ok) throw new Error("The Pokémon details could not be loaded.");
-                pokemonData = await pokemonResponse.json();
-                pokemonCache[chosenName] = pokemonData;
-            }
-            displayPokemon(pokemonData, preferredType);
+            const preferredType = getPreferredType();
+            const pokemon = await getPokemonForType(preferredType);
+            displayPokemon(pokemon, preferredType);
         } catch (error) {
             loadingTitle.textContent = "We couldn't find your Pokémon just yet.";
             statusText.textContent = "The Pokémon information is temporarily unavailable.";
             errorText.textContent = "Please check your internet connection and try again.";
             retryButton.hidden = false;
+            console.error("PokéAPI request failed:", error);
         }
     }
 
-    function displayPokemon(pokemon, personalityType) {
+    function displayPokemon(pokemon, preferredType) {
+        const artwork = pokemon.sprites.other["official-artwork"].front_default
+            || pokemon.sprites.front_default;
+
         loadingTitle.textContent = "Your Pokémon match is...";
-        statusText.textContent = `Your answers matched the ${personalityType} type!`;
+        statusText.textContent = `Your answers leaned toward the ${preferredType} type!`;
         resultCard.hidden = false;
         pokemonTitle.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-        pokemonDescription.textContent = typeDescriptions[personalityType];
-        const artwork = pokemon.sprites.other && pokemon.sprites.other["official-artwork"]
-            ? pokemon.sprites.other["official-artwork"].front_default : pokemon.sprites.front_default;
-        pokemonImage.onerror = function () { pokemonImage.hidden = true; };
+        pokemonDescription.textContent =
+            `You matched with this ${preferredType}-type Pokémon. Its abilities and characteristics make it your personality match!`;
+
+        pokemonImage.onerror = function () {
+            pokemonImage.hidden = true;
+        };
         if (artwork) {
             pokemonImage.src = artwork;
-            pokemonImage.alt = `${pokemon.name} Pokémon artwork`;
+            pokemonImage.alt = `${pokemon.name} official artwork`;
             pokemonImage.hidden = false;
         } else {
             pokemonImage.hidden = true;
         }
+
         pokemonFacts.innerHTML = "";
-        const pokemonTypes = pokemon.types.map(function (item) { return item.type.name; }).join(", ");
-        const abilities = pokemon.abilities.slice(0, 2).map(function (item) {
-            return item.ability.name.replace("-", " ");
-        }).join(", ");
+        const types = pokemon.types.map(item => item.type.name).join(", ");
+        const abilities = pokemon.abilities.map(item =>
+            item.ability.name.replace("-", " ")
+        ).join(", ");
         const facts = [
-            `Pokédex number: #${pokemon.id}`,
-            `Type: ${pokemonTypes}`,
-            `Abilities: ${abilities || "Not listed"}`,
-            `Height: ${(pokemon.height / 10).toFixed(1)} m`
+            `Pokédex number: #${String(pokemon.id).padStart(3, "0")}`,
+            `Type: ${types}`,
+            `Abilities: ${abilities}`,
+            `Height: ${(pokemon.height / 10).toFixed(1)} m`,
+            `Weight: ${(pokemon.weight / 10).toFixed(1)} kg`
         ];
+
         for (let i = 0; i < facts.length; i++) {
             const listItem = document.createElement("li");
             listItem.textContent = facts[i];
@@ -448,8 +486,12 @@ if (quizSection) {
 
     function goToNextQuestion() {
         if (!answered) return;
-        if (currentQuestion < questions.length - 1) { currentQuestion++; showQuestion(); }
-        else getPokemonMatch();
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+        } else {
+            findPokemonMatch();
+        }
     }
 
     function restartQuiz() {
@@ -467,7 +509,8 @@ if (quizSection) {
 
     nextButton.addEventListener("click", goToNextQuestion);
     restartButton.addEventListener("click", restartQuiz);
-    retryButton.addEventListener("click", getPokemonMatch);
+    retryButton.addEventListener("click", findPokemonMatch);
+
+    // Render the first question immediately; PokéAPI is only used after all five answers.
     showQuestion();
-}
 }
