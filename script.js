@@ -253,282 +253,213 @@ if (quizSection) {
 }
 
 
-// CARTOON PERSONALITY QUIZ: separate feature using the SampleAPIs endpoint.
+// POKÉMON PERSONALITY QUIZ: a separate feature using the PokéAPI.
 {
-const quizSection = document.getElementById("cartoon-match-quiz");
+const quizSection = document.getElementById("pokemon-match-quiz");
 
 if (quizSection) {
-    // Each answer is connected to a genre that exists in the cartoons API.
     const questions = [
-        {
-            question: "What sounds like your ideal weekend?",
-            options: [
-                { text: "Laughing with friends", genre: "Comedy" },
-                { text: "Exploring somewhere new", genre: "Adventure" },
-                { text: "Trying something exciting", genre: "Action" },
-                { text: "Relaxing with people I love", genre: "Family" }
-            ]
-        },
-        {
-            question: "Which word describes you best?",
-            options: [
-                { text: "Funny", genre: "Comedy" },
-                { text: "Curious", genre: "Adventure" },
-                { text: "Bold", genre: "Action" },
-                { text: "Caring", genre: "Family" }
-            ]
-        },
-        {
-            question: "Pick the story you would most enjoy:",
-            options: [
-                { text: "A series of hilarious situations", genre: "Comedy" },
-                { text: "A mysterious journey", genre: "Adventure" },
-                { text: "A team saving the day", genre: "Action" },
-                { text: "Friends growing together", genre: "Drama" }
-            ]
-        },
-        {
-            question: "When a problem appears, what do you do?",
-            options: [
-                { text: "Make a joke and stay positive", genre: "Comedy" },
-                { text: "Find a creative way around it", genre: "Adventure" },
-                { text: "Face it head-on", genre: "Action" },
-                { text: "Talk it through with others", genre: "Family" }
-            ]
-        },
-        {
-            question: "Choose the vibe for your own cartoon:",
-            options: [
-                { text: "Funny and unpredictable", genre: "Comedy" },
-                { text: "Imaginative and full of discovery", genre: "Adventure" },
-                { text: "Fast-paced and daring", genre: "Action" },
-                { text: "Heartwarming and meaningful", genre: "Family" }
-            ]
-        }
+        { question: "What sounds like your ideal weekend?", options: [
+            { text: "Going out and trying something exciting", type: "electric" },
+            { text: "Relaxing near the water", type: "water" },
+            { text: "Exploring somewhere new", type: "fire" },
+            { text: "Creating something or learning a mystery", type: "psychic" }
+        ]},
+        { question: "Which word describes you best?", options: [
+            { text: "Energetic", type: "electric" }, { text: "Calm", type: "water" },
+            { text: "Brave", type: "fire" }, { text: "Imaginative", type: "psychic" }
+        ]},
+        { question: "When you face a challenge, you usually...", options: [
+            { text: "Act quickly and stay positive", type: "electric" },
+            { text: "Stay patient and think it through", type: "water" },
+            { text: "Face it head-on", type: "fire" }, { text: "Find an unexpected solution", type: "psychic" }
+        ]},
+        { question: "Choose the place where you would feel most at home:", options: [
+            { text: "A lively city full of lights", type: "electric" },
+            { text: "A peaceful beach or lake", type: "water" },
+            { text: "A sunny mountain trail", type: "fire" },
+            { text: "A quiet library or art studio", type: "psychic" }
+        ]},
+        { question: "What would your friends appreciate most about you?", options: [
+            { text: "I bring energy and excitement", type: "electric" },
+            { text: "I listen and offer support", type: "water" },
+            { text: "I motivate people to be bold", type: "fire" },
+            { text: "I bring original ideas", type: "psychic" }
+        ]}
     ];
 
-    const cartoonsAPI = "https://api.sampleapis.com/cartoons/cartoons2D";
+    const typeDescriptions = {
+        electric: "You bring energy, enthusiasm, and a spark of excitement wherever you go.",
+        water: "You are thoughtful, adaptable, and know how to keep a cool head.",
+        fire: "You are courageous, passionate, and ready to take on new challenges.",
+        psychic: "You are imaginative, curious, and enjoy looking at things from a different perspective."
+    };
+    const typeCache = {};
+    const pokemonCache = {};
     let currentQuestion = 0;
-    let selectedGenres = [];
+    let selectedTypes = [];
     let answered = false;
+    let preferredType = "electric";
 
-    const quizCounter = document.getElementById("cartoon-quiz-counter");
-    const progressFill = document.getElementById("cartoon-quiz-progress-fill");
-    const quizCard = document.getElementById("cartoon-quiz-card");
-    const questionText = document.getElementById("cartoon-quiz-question");
-    const optionsContainer = document.getElementById("cartoon-quiz-options");
-    const feedbackIcon = document.getElementById("cartoon-quiz-feedback-icon");
-    const feedbackTitle = document.getElementById("cartoon-quiz-feedback-title");
-    const feedbackText = document.getElementById("cartoon-quiz-feedback-text");
-    const runningScore = document.getElementById("cartoon-quiz-running-score");
-    const nextButton = document.getElementById("cartoon-quiz-next");
-    const quizStage = document.getElementById("cartoon-quiz-stage");
-    const quizResult = document.getElementById("cartoon-quiz-result");
-    const restartButton = document.getElementById("cartoon-quiz-restart");
-    const cartoonLoadingTitle = document.getElementById("cartoon-loading-title");
-    const cartoonStatus = document.getElementById("cartoon-status");
-    const cartoonResultCard = document.getElementById("cartoon-result-card");
-    const cartoonImage = document.getElementById("cartoon-image");
-    const cartoonTitle = document.getElementById("cartoon-title");
-    const cartoonDescription = document.getElementById("cartoon-description");
-    const cartoonFacts = document.getElementById("cartoon-facts");
-    const cartoonError = document.getElementById("cartoon-error");
-    const retryButton = document.getElementById("cartoon-retry");
+    const quizCounter = document.getElementById("pokemon-quiz-counter");
+    const progressFill = document.getElementById("pokemon-quiz-progress-fill");
+    const quizCard = document.getElementById("pokemon-quiz-card");
+    const questionText = document.getElementById("pokemon-quiz-question");
+    const optionsContainer = document.getElementById("pokemon-quiz-options");
+    const feedbackIcon = document.getElementById("pokemon-quiz-feedback-icon");
+    const feedbackTitle = document.getElementById("pokemon-quiz-feedback-title");
+    const feedbackText = document.getElementById("pokemon-quiz-feedback-text");
+    const runningScore = document.getElementById("pokemon-quiz-running-score");
+    const nextButton = document.getElementById("pokemon-quiz-next");
+    const quizStage = document.getElementById("pokemon-quiz-stage");
+    const quizResult = document.getElementById("pokemon-quiz-result");
+    const restartButton = document.getElementById("pokemon-quiz-restart");
+    const loadingTitle = document.getElementById("pokemon-loading-title");
+    const statusText = document.getElementById("pokemon-status");
+    const resultCard = document.getElementById("pokemon-result-card");
+    const pokemonImage = document.getElementById("pokemon-image");
+    const pokemonTitle = document.getElementById("pokemon-title");
+    const pokemonDescription = document.getElementById("pokemon-description");
+    const pokemonFacts = document.getElementById("pokemon-facts");
+    const errorText = document.getElementById("pokemon-error");
+    const retryButton = document.getElementById("pokemon-retry");
 
     function showQuestion() {
         answered = false;
         quizCard.classList.remove("is-flipped");
-
         const question = questions[currentQuestion];
         quizCounter.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
         progressFill.style.width = `${(currentQuestion / questions.length) * 100}%`;
         questionText.textContent = question.question;
         optionsContainer.innerHTML = "";
-
         for (let i = 0; i < question.options.length; i++) {
             const optionButton = document.createElement("button");
             optionButton.type = "button";
             optionButton.classList.add("quiz-option");
             optionButton.textContent = `${i + 1}. ${question.options[i].text}`;
-            optionButton.addEventListener("click", function () {
-                selectAnswer(i);
-            });
+            optionButton.addEventListener("click", function () { selectAnswer(i); });
             optionsContainer.appendChild(optionButton);
         }
     }
 
     function selectAnswer(selectedOption) {
-        if (answered) {
-            return;
-        }
-
+        if (answered) return;
         answered = true;
-        const question = questions[currentQuestion];
-        const selectedAnswer = question.options[selectedOption];
-        selectedGenres.push(selectedAnswer.genre);
-
+        const selectedAnswer = questions[currentQuestion].options[selectedOption];
+        selectedTypes.push(selectedAnswer.type);
         feedbackIcon.textContent = "✓";
         feedbackTitle.textContent = "Choice saved!";
         feedbackTitle.classList.remove("quiz-incorrect");
         feedbackTitle.classList.add("quiz-correct");
-        feedbackText.textContent = `You chose: ${selectedAnswer.text}. Your answer adds ${selectedAnswer.genre.toLowerCase()} to your cartoon personality.`;
+        feedbackText.textContent = `You chose: ${selectedAnswer.text}. Your answer adds ${selectedAnswer.type} to your personality profile.`;
         runningScore.textContent = `Question ${currentQuestion + 1} of ${questions.length} completed`;
-
         const optionButtons = optionsContainer.querySelectorAll("button");
         for (let i = 0; i < optionButtons.length; i++) {
             optionButtons[i].disabled = true;
-            if (i === selectedOption) {
-                optionButtons[i].classList.add("correct-answer");
-            }
+            if (i === selectedOption) optionButtons[i].classList.add("correct-answer");
         }
-
-        if (currentQuestion === questions.length - 1) {
-            nextButton.textContent = "Reveal My Cartoon!";
-        } else {
-            nextButton.textContent = "Next Question";
-        }
-
+        nextButton.textContent = currentQuestion === questions.length - 1 ? "Reveal My Pokémon!" : "Next Question";
         quizCard.classList.add("is-flipped");
     }
 
-    function goToNextQuestion() {
-        if (!answered) {
-            return;
-        }
-
-        if (currentQuestion < questions.length - 1) {
-            currentQuestion++;
-            showQuestion();
-        } else {
-            findCartoonMatch();
-        }
-    }
-
-    // Find the genre selected most often, then match it to a cartoon from the API.
-    function getPreferredGenre() {
-        let bestGenre = selectedGenres[0];
+    function getPreferredType() {
+        let bestType = selectedTypes[0];
         let highestCount = 0;
-
-        for (let i = 0; i < selectedGenres.length; i++) {
+        for (let i = 0; i < selectedTypes.length; i++) {
             let count = 0;
-            for (let j = 0; j < selectedGenres.length; j++) {
-                if (selectedGenres[i] === selectedGenres[j]) {
-                    count++;
-                }
+            for (let j = 0; j < selectedTypes.length; j++) {
+                if (selectedTypes[i] === selectedTypes[j]) count++;
             }
-            if (count > highestCount) {
-                highestCount = count;
-                bestGenre = selectedGenres[i];
-            }
+            if (count > highestCount) { highestCount = count; bestType = selectedTypes[i]; }
         }
-        return bestGenre;
+        return bestType;
     }
 
-    async function findCartoonMatch() {
+    async function getPokemonMatch() {
         quizStage.hidden = true;
         quizResult.hidden = false;
         progressFill.style.width = "100%";
-        cartoonResultCard.hidden = true;
-        cartoonError.textContent = "";
+        resultCard.hidden = true;
+        errorText.textContent = "";
         retryButton.hidden = true;
-        cartoonLoadingTitle.textContent = "Finding your animated alter ego...";
-        cartoonStatus.textContent = "Connecting to the cartoons database. Please wait!";
-
+        loadingTitle.textContent = "Finding your Pokémon...";
+        statusText.textContent = "Connecting to PokéAPI. Please wait!";
+        preferredType = getPreferredType();
         try {
-            const response = await fetch(cartoonsAPI);
-
-            if (!response.ok) {
-                throw new Error("The cartoon service returned an error.");
+            let typeData = typeCache[preferredType];
+            if (!typeData) {
+                const typeResponse = await fetch(`https://pokeapi.co/api/v2/type/${preferredType}`);
+                if (!typeResponse.ok) throw new Error("The Pokémon type could not be loaded.");
+                typeData = await typeResponse.json();
+                typeCache[preferredType] = typeData;
             }
-
-            const cartoons = await response.json();
-
-            if (!Array.isArray(cartoons) || cartoons.length === 0) {
-                throw new Error("No cartoon information was returned.");
+            if (!typeData.pokemon || typeData.pokemon.length === 0) throw new Error("No Pokémon were found for this type.");
+            const randomIndex = Math.floor(Math.random() * typeData.pokemon.length);
+            const chosenName = typeData.pokemon[randomIndex].pokemon.name;
+            let pokemonData = pokemonCache[chosenName];
+            if (!pokemonData) {
+                const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${chosenName}`);
+                if (!pokemonResponse.ok) throw new Error("The Pokémon details could not be loaded.");
+                pokemonData = await pokemonResponse.json();
+                pokemonCache[chosenName] = pokemonData;
             }
-
-            const preferredGenre = getPreferredGenre();
-            const matchingCartoons = [];
-
-            // Avoid TV-MA titles and find cartoons that include the preferred genre.
-            for (let i = 0; i < cartoons.length; i++) {
-                const cartoon = cartoons[i];
-                if (cartoon.rating !== "TV-MA" && Array.isArray(cartoon.genre)) {
-                    for (let j = 0; j < cartoon.genre.length; j++) {
-                        if (cartoon.genre[j].toLowerCase() === preferredGenre.toLowerCase()) {
-                            matchingCartoons.push(cartoon);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // If the API has no exact genre match, choose from its other non-TV-MA cartoons.
-            if (matchingCartoons.length === 0) {
-                for (let i = 0; i < cartoons.length; i++) {
-                    if (cartoons[i].rating !== "TV-MA") {
-                        matchingCartoons.push(cartoons[i]);
-                    }
-                }
-            }
-
-            if (matchingCartoons.length === 0) {
-                throw new Error("There are no suitable cartoon results available right now.");
-            }
-
-            const randomIndex = Math.floor(Math.random() * matchingCartoons.length);
-            const matchedCartoon = matchingCartoons[randomIndex];
-            displayCartoon(matchedCartoon, preferredGenre);
+            displayPokemon(pokemonData, preferredType);
         } catch (error) {
-            cartoonLoadingTitle.textContent = "We couldn't find your cartoon just yet.";
-            cartoonStatus.textContent = "The cartoon information is temporarily unavailable.";
-            cartoonError.textContent = "Please check your internet connection and try again.";
+            loadingTitle.textContent = "We couldn't find your Pokémon just yet.";
+            statusText.textContent = "The Pokémon information is temporarily unavailable.";
+            errorText.textContent = "Please check your internet connection and try again.";
             retryButton.hidden = false;
         }
     }
 
-    function displayCartoon(cartoon, preferredGenre) {
-        cartoonLoadingTitle.textContent = "Your animated alter ego is...";
-        cartoonStatus.textContent = `Your answers leaned toward ${preferredGenre.toLowerCase()}! We found a cartoon with a matching genre.`;
-        cartoonResultCard.hidden = false;
-        cartoonTitle.textContent = cartoon.title || "A mystery cartoon";
-        cartoonDescription.textContent = `This cartoon matches your ${preferredGenre.toLowerCase()} personality. Maybe it's time to add it to your watchlist!`;
-
-        cartoonImage.onerror = function () {
-            cartoonImage.hidden = true;
-        };
-        cartoonImage.hidden = false;
-        if (cartoon.image) {
-            cartoonImage.src = cartoon.image;
-            cartoonImage.alt = `${cartoon.title || "Cartoon"} artwork`;
+    function displayPokemon(pokemon, personalityType) {
+        loadingTitle.textContent = "Your Pokémon match is...";
+        statusText.textContent = `Your answers matched the ${personalityType} type!`;
+        resultCard.hidden = false;
+        pokemonTitle.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+        pokemonDescription.textContent = typeDescriptions[personalityType];
+        const artwork = pokemon.sprites.other && pokemon.sprites.other["official-artwork"]
+            ? pokemon.sprites.other["official-artwork"].front_default : pokemon.sprites.front_default;
+        pokemonImage.onerror = function () { pokemonImage.hidden = true; };
+        if (artwork) {
+            pokemonImage.src = artwork;
+            pokemonImage.alt = `${pokemon.name} Pokémon artwork`;
+            pokemonImage.hidden = false;
         } else {
-            cartoonImage.hidden = true;
+            pokemonImage.hidden = true;
         }
-
-        cartoonFacts.innerHTML = "";
+        pokemonFacts.innerHTML = "";
+        const pokemonTypes = pokemon.types.map(function (item) { return item.type.name; }).join(", ");
+        const abilities = pokemon.abilities.slice(0, 2).map(function (item) {
+            return item.ability.name.replace("-", " ");
+        }).join(", ");
         const facts = [
-            `Year: ${cartoon.year || "Not listed"}`,
-            `Genre: ${Array.isArray(cartoon.genre) ? cartoon.genre.join(", ") : "Not listed"}`,
-            `Creator: ${Array.isArray(cartoon.creator) ? cartoon.creator.join(", ") : "Not listed"}`,
-            `TV rating: ${cartoon.rating || "Not listed"}`,
-            `Episodes: ${cartoon.episodes || "Not listed"}`
+            `Pokédex number: #${pokemon.id}`,
+            `Type: ${pokemonTypes}`,
+            `Abilities: ${abilities || "Not listed"}`,
+            `Height: ${(pokemon.height / 10).toFixed(1)} m`
         ];
-
         for (let i = 0; i < facts.length; i++) {
             const listItem = document.createElement("li");
             listItem.textContent = facts[i];
-            cartoonFacts.appendChild(listItem);
+            pokemonFacts.appendChild(listItem);
         }
+    }
+
+    function goToNextQuestion() {
+        if (!answered) return;
+        if (currentQuestion < questions.length - 1) { currentQuestion++; showQuestion(); }
+        else getPokemonMatch();
     }
 
     function restartQuiz() {
         currentQuestion = 0;
-        selectedGenres = [];
+        selectedTypes = [];
         answered = false;
         quizResult.hidden = true;
         quizStage.hidden = false;
-        cartoonResultCard.hidden = true;
-        cartoonError.textContent = "";
+        resultCard.hidden = true;
+        errorText.textContent = "";
         retryButton.hidden = true;
         nextButton.textContent = "Next Question";
         showQuestion();
@@ -536,10 +467,7 @@ if (quizSection) {
 
     nextButton.addEventListener("click", goToNextQuestion);
     restartButton.addEventListener("click", restartQuiz);
-    retryButton.addEventListener("click", findCartoonMatch);
-
+    retryButton.addEventListener("click", getPokemonMatch);
     showQuestion();
 }
-
 }
-
