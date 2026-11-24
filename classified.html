@@ -87,6 +87,60 @@
             </div>
         </section>
 
+        <section id="cartoon-match-quiz" class="content-card trivia-section">
+            <div class="trivia-heading">
+                <div>
+                    <p class="quiz-kicker">THE CLASSIFIED FILES</p>
+                    <h2>Which Cartoon Are You?</h2>
+                    <p>Answer five personality questions and discover your animated alter ego using the cartoons database!</p>
+                </div>
+                <span id="cartoon-quiz-counter" class="quiz-counter">Question 1 of 5</span>
+            </div>
+
+            <div class="quiz-progress" aria-label="Quiz progress">
+                <div id="cartoon-quiz-progress-fill" class="quiz-progress-fill"></div>
+            </div>
+
+            <div id="cartoon-quiz-stage" class="quiz-stage">
+                <div id="cartoon-quiz-card" class="quiz-card">
+                    <div class="quiz-card-inner">
+                        <div class="quiz-card-face quiz-card-front">
+                            <p class="quiz-card-label">PERSONALITY CHECK</p>
+                            <h3 id="cartoon-quiz-question">Loading your first question...</h3>
+                            <div id="cartoon-quiz-options" class="quiz-options"></div>
+                            <p class="quiz-keyboard-hint">Choose the answer that feels most like you.</p>
+                        </div>
+
+                        <div class="quiz-card-face quiz-card-back" aria-live="polite">
+                            <p id="cartoon-quiz-feedback-icon" class="quiz-feedback-icon"></p>
+                            <h3 id="cartoon-quiz-feedback-title">Choice saved!</h3>
+                            <p id="cartoon-quiz-feedback-text"></p>
+                            <p id="cartoon-quiz-running-score" class="quiz-running-score"></p>
+                            <button id="cartoon-quiz-next" type="button">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cartoon-quiz-result" class="quiz-result" hidden aria-live="polite">
+                <p class="quiz-card-label">YOUR CARTOON MATCH</p>
+                <h3 id="cartoon-loading-title">Finding your animated alter ego...</h3>
+                <p id="cartoon-status">Your answers will be matched with cartoons from the SampleAPIs database.</p>
+                <div id="cartoon-result-card" class="cartoon-result-card" hidden>
+                    <img id="cartoon-image" class="cartoon-image" alt="Cartoon artwork">
+                    <div class="cartoon-result-details">
+                        <h3 id="cartoon-title"></h3>
+                        <p id="cartoon-description"></p>
+                        <ul id="cartoon-facts" class="cartoon-facts"></ul>
+                    </div>
+                </div>
+                <p id="cartoon-error" class="cartoon-error" role="alert"></p>
+                <button id="cartoon-retry" type="button" hidden>Try Again</button>
+                <button id="cartoon-quiz-restart" type="button">Take the Quiz Again</button>
+                <p class="api-credit">Cartoon information provided by <a href="https://sampleapis.com/cartoons/cartoons2D" target="_blank" rel="noopener noreferrer">SampleAPIs</a>.</p>
+            </div>
+        </section>
+
         <section class="content-card">
             <h2>A Survival Guide to Working With Me</h2>
             <p>Want to work with me? Here are a few tips to make the experience better.</p>
@@ -125,6 +179,13 @@
     </main>
 
     <footer class="site-footer">
+        <p>&copy; 2026 Mauricio Padilla Quintero</p>
+        <p>You've discovered the classified information. Keep it safe!</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
         <p>&copy; 2026 Mauricio Padilla Quintero</p>
         <p>You've discovered the classified information. Keep it safe!</p>
     </footer>
